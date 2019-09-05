@@ -55,11 +55,12 @@ def consultarDelimitacion(request):
 ###########################################################################################
 def delimitacionesDisponibles(request):
     soaphost = settings.CLIENT_SOAP_HOST
+    conexion =''
     try:
         conexion = getSOAPClient(soaphost).service.delimitacionesDisponibles()
         jsonresponse = traduccion_recursiva(conexion)
     except Exception as error:
-        jsonresponse = 'Parametros incorrectos '+str(error)+' '+soaphost
+        jsonresponse = 'Parametros incorrectos '+str(error)+' '+soaphost+' '+conexion
 
     return JsonResponse(jsonresponse, safe=False)
 
