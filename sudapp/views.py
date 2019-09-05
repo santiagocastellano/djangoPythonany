@@ -59,7 +59,7 @@ def delimitacionesDisponibles(request):
         conexion = getSOAPClient(soaphost).service.delimitacionesDisponibles()
         jsonresponse = traduccion_recursiva(conexion)
     except Exception as error:
-        jsonresponse = 'Parametros incorrectos'
+        jsonresponse = 'Parametros incorrectos '+str(error)
 
     return JsonResponse(jsonresponse, safe=False)
 
