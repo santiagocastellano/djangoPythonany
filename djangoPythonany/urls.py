@@ -14,8 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include,path
+from sudapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('delimitaciones/', include('soaptorest.urlsDelimitaciones')),
+    path('calles/', include('soaptorest.urlsCalles')),
+    path('lugares/', include('soaptorest.urlsLugares')),
+    path('genericas/', include('soaptorest.urlsGenericas')),
+    path('administradora', views.vistaAdministradora),
 ]

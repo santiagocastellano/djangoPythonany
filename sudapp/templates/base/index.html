@@ -1,0 +1,428 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Llamada SOAP</h1>
+<hr>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="{% static 'scripts/jquery-2.2.3.min.js' %}"></script>
+<script src="{% static 'scripts/jquery.json.min.js' %}"></script>
+<script src="{% static 'scripts/jquery.popupoverlay.js' %}"></script>
+<!--<script src="./scripts/jquery-2.2.3.min.js"></script>-->
+<style type="text/css">
+    
+    div.ex1 {
+      width: 500px;
+      margin: auto;
+      border: 3px solid #73AD21;
+    }
+
+
+</style>
+
+
+<h4>Resultado de la consulta</h4>
+<textarea name="textarea" id='resultado' rows="10" cols="70"></textarea>
+
+<h4>Url de la consulta REST</h4>
+<textarea name="textarea" id='urlrest' rows="3" cols="70"></textarea>
+<hr>
+<p>
+<h3>Delimitaciones Disponibles</h3>
+<h4> Devuelve un listado de las delimitaciones disponibles para consultas. Las delimitaciones dividen la ciudad en
+    regiones y en general resulta de interés determinar la pertenencia de un punto a una de dichas regiones, como por
+    ejemplo, determinar a qué barrio o comuna corresponde una dirección.</h4>
+
+<p>
+    <button href="#demo" class="demo_open" onclick="delimitacionesDisponibles()">Delimitaciones Disponibles</button>
+</p>
+</p>
+<hr>
+<h3>Consultar Delimitacion</h3>
+<h4>Dada una delimitación y par de coordenadas realiza una consulta geográfica para determinar a qué región de dicha
+    delimitación pertenecen las coordenadas de entrada y devuelve el nombre del polígono (región) correspondiente.</h4>
+Coordenada X (gkba): <input type="number" name="xDelimitacion" id="xDelimitacion"><br>
+Coordenada Y (gkba): <input type="number" name="yDelimitacion" id="yDelimitacion"><br>
+Delimitacion : <input type="text" name="delimitacion" id="delimitacion"><br>
+<p>
+    <button onclick="consultaDelimitacion()">Consultar Delimitacion</button>
+</p>
+</p>
+<hr>
+<p>
+<h3>Consultar Delimitaciones</h3>
+<h4>Dado un par de coordenadas y una lista de nombres de delimitaciones separada por comas, devuelve el nombre de la
+    región correspondiente a cada delimitación a la que pertenece la coordenada indicada.</h4>
+Coordenada X (gkba): <input type="number" name="xDelimitaciones" id="xDelimitaciones"><br>
+Coordenada Y (gkba): <input type="number" name="yDelimitaciones" id="yDelimitaciones"><br>
+Delimitaciones : <input type="text" name="delimitaciones" id="delimitaciones"><br>
+<p>
+    <button onclick="consultaDelimitaciones()">Consultar Delimitaciones</button>
+</p>
+</p>
+<hr>
+<p>
+<h3>Consultar Delimitaciones por direccion</h3>
+<h4>Este método es idéntico a consultarDelimitaciones con la diferencia de que para obtener la coordenada primero
+    intenta realizar una normalización y geocodificación de la dirección especificada. A su vez, al partir de una
+    dirección este método permite consultar delimitaciones especiales como por ej. id_cuadra. El parámetro
+    autoDesambiguar funciona exactamente igual que en el método normalizarCalleAltura.</h4>
+Calle : <input type="text" name="calleDelDir" id="calleDelDir"><br>
+Altura : <input type="text" name="alturaDelDir" id="alturaDelDir"><br>
+Delimitaciones : <input type="text" name="delimitacionesDelDir" id="delimitacionesDelDir"><br>
+AutoDesambiguar : <select name="delDirDesam" id="delDirDesam">
+    <option SELECTED value="true">TRUE</option>
+    <option value="false">FALSE</option>
+
+</select>
+<p>
+    <button onclick="consultaDelimitacionesPorDir()">Consultar Delimitaciones Por Direccion</button>
+</p>
+</p>
+<hr>
+<h3>Consultar Delimitaciones por direccion y desambiguar</h3>
+<h4>Este método es idéntico a consultarDelimitacionesPorDireccion con la diferencia de que si al intentar normalizar la
+    dirección especificada obtiene una ambigüedad intenta resolverla aplicando el mismo criterio que en el método
+    normalizarCalleAltura.</h4>
+Calle : <input type="text" name="calleDelDirDesambiguar" id="calleDelDirDesambiguar"><br>
+Altura : <input type="text" name="alturaDelDirDesambiguar" id="alturaDelDirDesambiguar"><br>
+Delimitaciones : <input type="text" name="delimitacionesDelDirDesambiguar" id="delimitacionesDelDirDesambiguar"><br>
+
+<p>
+    <button onclick="consultaDelimitacionesPorDirDesambiguar()">Consultar Delimitaciones Por Direccion Desambiguar
+    </button>
+</p>
+</p>
+<hr>
+<h3>Obtener todas las regiones</h3>
+<h4>Dada una delimitación devuelve los nombres de todas las regiones que la componen. Por ejemplo, para la delimitación
+    barrios se obtendrían los nombres de todos los barrios de la ciudad.</h4>
+Delimitacion : <input type="text" name="todasDelimLasRegiones" id="todasDelimLasRegiones"><br>
+
+<p>
+    <button onclick="todasLasRegiones()">Obtener Todas las Regiones</button>
+</p>
+</p>
+<hr>
+<h3>Obtener id de cuadra por codigo de calle y altura</h3>
+<h4>Dado un código de calle y una altura válida para esa calle este método devuelve el identificador de cuadra
+    correspondiente en el callejero de USIG.</h4>
+Codigo de Calle : <input type="number" name="codCalleIdCodCalleAlt" id="codCalleIdCodCalleAlt"><br>
+Altura : <input type="number" name="alturaIdCodCalleAlt" id="alturaIdCodCalleAlt"><br>
+<p>
+    <button onclick="obtenerIdCuadraPorCodCalleAltura()">obtenerIdCuadraPorCodCalleAltura</button>
+</p>
+</p>
+<hr>
+<h3>obtenerIdCuadraPor2CodigosDeCalle</h3>
+<h4>Dados dos códigos de calle este método devuelve el menor identificador de cuadra correspondiente en el callejero de
+    USIG para la intersección de calles especificada.</h4>
+codCalle1 : <input type="number" name="codCalle1idCuadraX2CodCalle" id="codCalle1idCuadraX2CodCalle"><br>
+codCalle2 : <input type="number" name="codCalle2idCuadraX2CodCalle" id="codCalle2idCuadraX2CodCalle"><br>
+<p>
+    <button onclick="obtenerIdCuadraPor2CodigosDeCalle()">obtenerIdCuadraPor2CodigosDeCalle</button>
+</p>
+</p>
+<hr>
+<h3>obtenerIdCuadraPorDireccion</h3>
+<h4>Este método intenta normalizar la dirección especificada para obtener el identificador de cuadra correspondiente en
+    el callejero de USIG. El parámetro autoDesambiguar funciona exactamente igual que en el método
+    normalizarCalleAltura.</h4>
+    Calle : <input type="text" name="calleIdCuadraxDireccion" id="calleIdCuadraxDireccion"><br>
+    Altura : <input type="number" name="alturaIdCuadraxDireccion" id="alturaIdCuadraxDireccion"><br>
+    AutoDesambiguar : <select name="desamIdCuadraxDireccion" id="desamIdCuadraxDireccion">
+    <option SELECTED value="true">TRUE</option>
+    <option value="false">FALSE</option>
+
+</select>
+
+<p>
+    <button onclick="obtenerIdCuadraPorDireccion()">obtenerIdCuadraPorDireccion</button>
+</p>
+</p>
+<hr>
+<h3>obtenerRecorridoMismaCallePorAltura</h3>
+<h4>sin descripcion oficial.</h4>
+    Codigo de calle : <input type="text" name="codCalleMisma" id="codCalleMisma"><br>
+    altura 1 : <input type="text" name="altura1Misma" id="altura1Misma"><br>
+    altura 2 : <input type="text" name="altura2Misma" id="altura2Misma"><br>
+<p>
+    <button onclick="obtenerRecorridoMismaCallePorAltura()">obtenerRecorridoMismaCallePorAltura</button>
+</p>
+</p>
+<hr>
+<h3>obtenerTodasLasCalles</h3>
+<h4>Este método devuelve un lista de todas las calles cuyo nombre comienza con el prefijo indicado.</h4>
+Prefijo : <input type="text" name="prefijoTodasCalles" id="prefijoTodasCalles"><br>
+
+<p>
+    <button onclick="obtenerTodasLasCalles()">obtenerTodasLasCalles</button>
+</p>
+</p>
+<hr>
+<h3>obtenerTramosDeCallesDentroDeRadio</h3>
+<h4>Este método obtiene los tramos de calle que se encuentran en un radio r del punto (x,y)</h4>
+    X : <input type="text" name="xDentroRadio" id="xDentroRadio"><br>
+    Y : <input type="text" name="yDentroRadio" id="yDentroRadio"><br>
+    radio : <input type="text" name="radioDentroRadio" id="radioDentroRadio"><br>
+<p>
+    <button onclick="obtenerTramosDeCallesDentroDeRadio()">obtenerTramosDeCallesDentroDeRadio</button>
+</p>
+</p>
+<hr>
+<h3>obtenerClasesDeLugares</h3>
+<h4>Sin descripcion oficial</h4>
+
+
+<p>
+    <button onclick="obtenerClasesDeLugares()">obtenerClasesDeLugares</button>
+</p>
+</p>
+<hr>
+<h3>buscarLugar</h3>
+<h4>Sin descipcion oficial.</h4>
+    String : <input type="text" name="strBuscarLugar" id="strBuscarLugar"><br>
+    Clases : <input type="text" name="clasesBuscarLugar" id="clasesBuscarLugar"><br>
+    Limite : <input type="number" name="limiteBuscarLugar" id="limiteBuscarLugar"><br>
+    Desplazamiento : <input type="number" name="desplazamientoBuscarLugar" id="desplazamientoBuscarLugar"><br>
+<p>
+    <button onclick="buscarLugar()">buscarLugar</button>
+</p>
+</p>
+<hr>
+<h3>buscarLugarPorPerfil</h3>
+<h4>Sin descripcion oficial.</h4>
+    string : <input type="text" name="strPorPerfil" id="strPorPerfil"><br>
+    clases : <input type="text" name="clasesPorPerfil" id="clasesPorPerfil"><br>
+    clasificadores_clases : <input type="text" name="clasificadoresPorPerfil" id="clasificadoresPorPerfil"><br>
+    perfil : <input type="text" name="perfilPorPerfil" id="perfilPorPerfil"><br>
+    limite : <input type="number" name="limitePorPerfil" id="limitePorPerfil"><br>
+    Desplazamiento : <input type="number" name="desplazamientoPorPerfil" id="desplazamientoPorPerfil"><br>
+
+<p>
+    <button onclick="buscarLugarPorPerfil()">buscarLugarPorPerfil</button>
+</p>
+</p>
+<hr>
+<h3>obtenerSMPPorPuerta</h3>
+<h4> Este método devuelve el identificador catastral de Seccion-Manzana-Parcela correspondiente a la puerta indicada, en
+    caso de que exista.</h4>
+    codigo de calle : <input type="number" name="calleSMP" id="calleSMP"><br>
+    altura : <input type="number" name="alturaSMP" id="alturaSMP"><br>
+<p>
+    <button onclick="obtenerSMPPorPuerta()">obtenerSMPPorPuerta</button>
+</p>
+</p>
+<hr>
+<h3>ConvertirCoordenadas</h3>
+<h4> Este método permite traducir coordenadas entre los sistemas GKBA, WGS84 Lon/Lat y WGS84 grados, minutos, segundos. Los parámetros son (x, y) y el formato de salida, que se indica con "gkba", "lonlat" y "degrees" respectivamente. El formato de entrada se detecta automáticamente.</h4>
+    X : <input type="number" name="xConvCoord" id="xConvCoord"><br>
+    Y : <input type="number" name="yConvCoord" id="yConvCoord"><br>
+    Formato de salida : <select name="proyConvCoord" id="proyConvCoord">
+    <option SELECTED value="gkba">gkba</option>
+    <option value="lonlat">lonlat</option>
+    <option value="degrees">degrees</option>
+</select>
+<p>
+    <button onclick="convertirCoordenadas()">convertirCoordenadas</button>
+</p>
+</p>
+<hr>
+<script>
+    //urls rest que reciben la peticion TODO: cambiar en el deploy final
+    var urlrest;
+    const urlConsultarDelimitaciones = 'http://10.78.17.57:8000/delimitaciones/consultardelimitaciones';
+    const urlDelimitacionesDisponibles = 'http://10.78.17.57:8000/delimitaciones/delimitacionesdisponibles';
+    const urlDelimitacion = 'http://10.78.17.57:8000/delimitaciones/consultardelimitacion';
+    const urlDelDir = 'http://10.78.17.57:8000/delimitaciones/deldir';
+    const urlDelDirDesambiguar = 'http://10.78.17.57:8000/delimitaciones/deldirDesamb'
+    const urlTodasLasRegiones = 'http://10.78.17.57:8000/genericas/todaslasregiones';
+    const urlObtenerIdCuadraPorCodCalleAltura = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPorCodCalleAltura';
+    const urlObtenerIdCuadraPor2CodigosDeCalle = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPor2CodigosDeCalle';
+    const urlobtenerIdCuadraPorDireccion = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPorDireccion';
+    const urlobtenerRecorridoMismaCallePorAltura = 'http://10.78.17.57:8000/calles/obtenerRecorridoMismaCallePorAltura';
+    const urlobtenerTodasLasCalles = 'http://10.78.17.57:8000/calles/obtenerTodasLasCalles';
+    const urlobtenerTramosDeCallesDentroDeRadio = 'http://10.78.17.57:8000/calles/obtenerTramosDeCallesDentroDeRadio';
+    const urlobtenerClasesDeLugares = 'http://10.78.17.57:8000/lugares/obtenerClasesDeLugares';
+    const urlbuscarLugar = 'http://10.78.17.57:8000/lugares/buscarLugar';
+    const urlbuscarLugarPorPerfil = 'http://10.78.17.57:8000/lugares/buscarLugarPorPerfil';
+    const urlobtenerSMPPorPuerta = 'http://10.78.17.57:8000/genericas/obtenerSMPPorPuerta';
+    const urlConvertirCoordenadas = 'http://10.78.17.57:8000/genericas/convertirCoordenadas';
+    function llamarAjax(url,data){
+        urlrest = url +'?'+ data;
+       $.ajax({
+              type: "GET",
+              url: url,
+              data: data,
+              success: function(resultado){
+                var resJson = $.toJSON(resultado);
+                console.log(resultado); //resultado en formato json viniendo del server
+
+                mostrarRes(resJson);
+              },
+              dataType: "json"
+            }); 
+       
+    }
+    function convertirCoordenadas(){
+        var xConvCoord = document.getElementById("xConvCoord").value;
+        var yConvCoord = document.getElementById("yConvCoord").value;
+        var proyConvCoord = document.getElementById("proyConvCoord").value;
+        var data = 'x='+xConvCoord+'&y='+yConvCoord+'&formatoSalida='+proyConvCoord;
+        var url = urlConvertirCoordenadas;
+        llamarAjax(url,data); 
+    }
+    function mostrarRes(res){
+        $('#resultado').text(res);
+        $('#urlrest').text(urlrest);
+        //document.getElementById("resultado").innerHTML=res;
+    }
+    function delimitacionesDisponibles(){
+        var url = urlDelimitacionesDisponibles;
+        data = '';
+        llamarAjax(url,data);
+    }
+    function consultaDelimitacion(){
+        var x = document.getElementById("xDelimitacion").value;
+        var y = document.getElementById("yDelimitacion").value;
+        var delimitacion = document.getElementById("delimitacion").value;
+        var data = 'delimitacion='+delimitacion+'&x='+x+'&y='+y;
+        //var url = 'http://10.78.17.57:8000/consultardelimitaciones?delimitaciones=barrios,secciones_policiales&x=100000&y=100000'
+        var url = urlDelimitacion;
+        llamarAjax(url,data); 
+    }
+    function consultaDelimitaciones() {
+        var x = document.getElementById("xDelimitaciones").value;
+        var y = document.getElementById("yDelimitaciones").value;
+        var delimitaciones = document.getElementById("delimitaciones").value;
+        var data = 'delimitaciones='+delimitaciones+'&x='+x+'&y='+y;
+        //var url = 'http://10.78.17.57:8000/consultardelimitaciones?delimitaciones=barrios,secciones_policiales&x=100000&y=100000'
+        var url = urlConsultarDelimitaciones;
+        llamarAjax(url,data);
+
+    }
+    function consultaDelimitacionesPorDir(){
+        console.log('consultadelimetacion por dir');
+        var calle = document.getElementById("calleDelDir").value;
+        var altura = document.getElementById("alturaDelDir").value;
+        var delimitaciones = document.getElementById("delimitacionesDelDir").value;
+        var delDirDesam = document.getElementById("delDirDesam").value;
+        var data = 'calle='+calle+'&altura='+altura+'&delimitaciones='+delimitaciones+'&autoDesambiguar='+delDirDesam;
+        var url = urlDelDir;
+        llamarAjax(url,data);
+        //var url = 'http://10.78.17.57:8000/consultardelimitaciones?delimitaciones=barrios,secciones_policiales&x=100000&y=100000'
+       
+    }
+    function consultaDelimitacionesPorDirDesambiguar(){
+        console.log(' consulta por delimitacion por dir y desambiguar')
+        var calle = document.getElementById("calleDelDirDesambiguar").value;
+        var altura = document.getElementById("alturaDelDirDesambiguar").value;
+        var delimitaciones = document.getElementById("delimitacionesDelDirDesambiguar").value;
+        var data = 'calle='+calle+'&altura='+altura+'&delimitaciones='+delimitaciones;
+        var url = urlDelDirDesambiguar;
+        llamarAjax(url,data);
+    }
+    function todasLasRegiones(){
+        console.log(' obtener toda laas regiones')
+        var delimitacion = document.getElementById("todasDelimLasRegiones").value;
+        data = 'delimitacion='+delimitacion;
+        var url = urlTodasLasRegiones;
+        llamarAjax(url,data);
+    }
+
+
+    function obtenerIdCuadraPorCodCalleAltura(){
+        console.log(' obtenerIdCuadraPorCodCalleAltura')
+        var codCalle = document.getElementById("codCalleIdCodCalleAlt").value;
+        var altura = document.getElementById("alturaIdCodCalleAlt").value;
+        data = 'codCalle='+codCalle+'&altura='+altura;
+        var url = urlObtenerIdCuadraPorCodCalleAltura;
+        llamarAjax(url,data);
+    }
+    function obtenerIdCuadraPor2CodigosDeCalle(){
+        console.log('obtenerIdCuadraPor2CodigosDeCalle')
+        var codCalle1 = document.getElementById("codCalle1idCuadraX2CodCalle").value;
+        var codCalle2 = document.getElementById("codCalle2idCuadraX2CodCalle").value;
+        data = 'codCalle1='+codCalle1+'&codCalle2='+codCalle2;
+        var url = urlObtenerIdCuadraPor2CodigosDeCalle;
+        llamarAjax(url,data);
+    }
+    function obtenerIdCuadraPorDireccion(){
+        console.log('obtenerIdCuadraPorDireccion')
+        var calle = document.getElementById("calleIdCuadraxDireccion").value;
+        var altura = document.getElementById("alturaIdCuadraxDireccion").value;
+        var desam = document.getElementById("desamIdCuadraxDireccion").value;
+        data = 'calle='+calle+'&altura='+altura+'&autoDesambiguar='+desam;
+        var url = urlobtenerIdCuadraPorDireccion;
+        llamarAjax(url,data);
+    }
+    function obtenerRecorridoMismaCallePorAltura(){
+        console.log(' obtenerRecorridoMismaCallePorAltura')
+        var codCalleMisma = document.getElementById("codCalleMisma").value;
+        var altura1Misma = document.getElementById("altura1Misma").value;
+        var altura2Misma = document.getElementById("altura2Misma").value;
+        data = 'codCalle='+codCalleMisma+'&altura1='+altura1Misma+'&altura2='+altura2Misma;
+        var url = urlobtenerRecorridoMismaCallePorAltura;
+        llamarAjax(url,data);
+    }
+    function obtenerTodasLasCalles(){
+        console.log(' obtenerTodasLasCalles')
+        var prefijoTodasCalles = document.getElementById("prefijoTodasCalles").value;
+        data = 'prefijo='+prefijoTodasCalles;
+        var url = urlobtenerTodasLasCalles ;
+        llamarAjax(url,data);
+    }
+    function obtenerTramosDeCallesDentroDeRadio(){
+        console.log('obtenerTramosDeCallesDentroDeRadio')
+        var x = document.getElementById("xDentroRadio").value;
+        var y = document.getElementById("yDentroRadio").value;
+        var radio = document.getElementById("radioDentroRadio").value;
+        data = 'x='+x+'&y='+y+'&radio='+radio;
+        var url = urlobtenerTramosDeCallesDentroDeRadio;
+        llamarAjax(url,data);
+    }
+    function obtenerClasesDeLugares(){
+        console.log('obtenerClasesDeLugares')
+        data = '';
+        var url = urlobtenerClasesDeLugares;
+        llamarAjax(url,data);
+    }
+    function buscarLugar(){
+        console.log(' buscarLugar')
+        var strBuscarLugar = document.getElementById("strBuscarLugar").value;
+        var clasesBuscarLugar = document.getElementById("clasesBuscarLugar").value;
+        var limiteBuscarLugar = document.getElementById("limiteBuscarLugar").value;
+        var desplazamientoBuscarLugar = document.getElementById("desplazamientoBuscarLugar").value;
+        data = 'str='+strBuscarLugar+'&clases='+clasesBuscarLugar+'&limite='+limiteBuscarLugar+'&desplazamiento='+desplazamientoBuscarLugar;
+        var url = urlbuscarLugar;
+        llamarAjax(url,data);
+    }
+    function buscarLugarPorPerfil(){
+        console.log('buscarLugarPorPerfil')
+        var strPorPerfil = document.getElementById("strPorPerfil").value;
+        var clasesPorPerfil = document.getElementById("clasesPorPerfil").value;
+        var clasificadoresPorPerfil = document.getElementById("clasificadoresPorPerfil").value;
+        var limitePorPerfil = document.getElementById("limitePorPerfil").value;
+        var perfilPorPerfil = document.getElementById("perfilPorPerfil").value;
+        var desplazamientoPorPerfil = document.getElementById("desplazamientoPorPerfil").value;
+        data = 'str='+strPorPerfil+'&clases='+clasesPorPerfil+'&clasificadores_clases='+clasificadoresPorPerfil+'&perfil='+perfilPorPerfil+
+        '&limite='+limitePorPerfil+'&desplazamiento='+desplazamientoPorPerfil;
+        var url = urlbuscarLugarPorPerfil;
+        llamarAjax(url,data);
+    }
+    function obtenerSMPPorPuerta(){
+        console.log(' obtenerSMPPorPuerta')
+        var calleSMP = document.getElementById("calleSMP").value;
+        var alturaSMP = document.getElementById("alturaSMP").value;
+        data = 'codCalle='+calleSMP+'&altura='+alturaSMP;
+        var url = urlobtenerSMPPorPuerta;
+        llamarAjax(url,data);
+    }
+
+
+
+</script>
+
+</body>
+</html>
