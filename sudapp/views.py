@@ -5,6 +5,7 @@ from django.conf import settings
 from suds.client import Client
 from django.http import JsonResponse
 from suds.sudsobject import asdict
+from suds.client import Client
 from django.http import HttpResponse
 def vistaAdministradora(request):
     return render(request, 'base/index.html', {})
@@ -56,11 +57,13 @@ def consultarDelimitacion(request):
 def delimitacionesDisponibles(request):
     soaphost = settings.CLIENT_SOAP_HOST
     conexion =''
+
     try:
+        Client(soaphost)
         conexion = getSOAPClient(soaphost).service.delimitacionesDisponibles()
         jsonresponse = traduccion_recursiva(conexion)
     except Exception as error:
-        jsonresponse = 'Parametros incorrectos '+str(error)+' '+soaphost+' '+conexion
+        jsonresponse = 'Parametros incorrectos '+str(error)+' '+soaphost+' '+Client
 
     return JsonResponse(jsonresponse, safe=False)
 
