@@ -19,9 +19,9 @@ from sudapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('delimitaciones/', include('soaptorest.urlsDelimitaciones')),
-    path('calles/', include('soaptorest.urlsCalles')),
-    path('lugares/', include('soaptorest.urlsLugares')),
-    path('genericas/', include('soaptorest.urlsGenericas')),
+    path('delimitaciones/', include('djangoPythonany.urlsDelimitaciones')),
+    path('calles/', include('djangoPythonany.urlsCalles')),
+    path('lugares/', include('djangoPythonany.urlsLugares')),
+    path('genericas/', include('djangoPythonany.urlsGenericas')),
     path('administradora', views.vistaAdministradora),
 ]

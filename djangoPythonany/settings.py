@@ -24,8 +24,8 @@ SECRET_KEY = 'iaj5p43-wg5)7e++h(e%)@8!ty!i*-b&2dohpfx#syktq8q4*o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = [u'scastellano10.pythonanywhere.com']
+CLIENT_SOAP_HOST = 'http://ws.usig.buenosaires.gob.ar/1.1?wsdl'
+ALLOWED_HOSTS = [u'scastellano10.pythonanywhere.com','*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'primera',
+    'sudapp',
 ]
 
 MIDDLEWARE = [
