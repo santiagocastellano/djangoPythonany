@@ -232,23 +232,24 @@ Prefijo : <input type="text" name="prefijoTodasCalles" id="prefijoTodasCalles"><
 <script>
     //urls rest que reciben la peticion TODO: cambiar en el deploy final
     var urlrest;
-    const urlConsultarDelimitaciones = 'http://10.78.17.57:8000/delimitaciones/consultardelimitaciones';
-    const urlDelimitacionesDisponibles = 'http://10.78.17.57:8000/delimitaciones/delimitacionesdisponibles';
-    const urlDelimitacion = 'http://10.78.17.57:8000/delimitaciones/consultardelimitacion';
-    const urlDelDir = 'http://10.78.17.57:8000/delimitaciones/deldir';
-    const urlDelDirDesambiguar = 'http://10.78.17.57:8000/delimitaciones/deldirDesamb'
-    const urlTodasLasRegiones = 'http://10.78.17.57:8000/genericas/todaslasregiones';
-    const urlObtenerIdCuadraPorCodCalleAltura = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPorCodCalleAltura';
-    const urlObtenerIdCuadraPor2CodigosDeCalle = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPor2CodigosDeCalle';
-    const urlobtenerIdCuadraPorDireccion = 'http://10.78.17.57:8000/calles/obtenerIdCuadraPorDireccion';
-    const urlobtenerRecorridoMismaCallePorAltura = 'http://10.78.17.57:8000/calles/obtenerRecorridoMismaCallePorAltura';
-    const urlobtenerTodasLasCalles = 'http://10.78.17.57:8000/calles/obtenerTodasLasCalles';
+    var serv = 'https://scastellano10.pythonanywhere.com/'
+    const urlConsultarDelimitaciones = serv+'delimitaciones/consultardelimitaciones';
+    const urlDelimitacionesDisponibles = serv+'delimitaciones/delimitacionesdisponibles';
+    const urlDelimitacion = serv+'delimitaciones/consultardelimitacion';
+    const urlDelDir = serv+'delimitaciones/deldir';
+    const urlDelDirDesambiguar = serv+'delimitaciones/deldirDesamb'
+    const urlTodasLasRegiones = serv+'genericas/todaslasregiones';
+    const urlObtenerIdCuadraPorCodCalleAltura = serv+'calles/obtenerIdCuadraPorCodCalleAltura';
+    const urlObtenerIdCuadraPor2CodigosDeCalle = serv+'calles/obtenerIdCuadraPor2CodigosDeCalle';
+    const urlobtenerIdCuadraPorDireccion = serv+'calles/obtenerIdCuadraPorDireccion';
+    const urlobtenerRecorridoMismaCallePorAltura = serv+'calles/obtenerRecorridoMismaCallePorAltura';
+    const urlobtenerTodasLasCalles = serv+'calles/obtenerTodasLasCalles';
     const urlobtenerTramosDeCallesDentroDeRadio = 'http://10.78.17.57:8000/calles/obtenerTramosDeCallesDentroDeRadio';
-    const urlobtenerClasesDeLugares = 'http://10.78.17.57:8000/lugares/obtenerClasesDeLugares';
-    const urlbuscarLugar = 'http://10.78.17.57:8000/lugares/buscarLugar';
-    const urlbuscarLugarPorPerfil = 'http://10.78.17.57:8000/lugares/buscarLugarPorPerfil';
-    const urlobtenerSMPPorPuerta = 'http://10.78.17.57:8000/genericas/obtenerSMPPorPuerta';
-    const urlConvertirCoordenadas = 'http://10.78.17.57:8000/genericas/convertirCoordenadas';
+    const urlobtenerClasesDeLugares = serv+'lugares/obtenerClasesDeLugares';
+    const urlbuscarLugar = serv+'lugares/buscarLugar';
+    const urlbuscarLugarPorPerfil = serv+'lugares/buscarLugarPorPerfil';
+    const urlobtenerSMPPorPuerta = serv+'genericas/obtenerSMPPorPuerta';
+    const urlConvertirCoordenadas = serv+'genericas/convertirCoordenadas';
     function llamarAjax(url,data){
         urlrest = url +'?'+ data;
        $.ajax({
