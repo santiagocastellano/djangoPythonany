@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from suds.sudsobject import asdict
 from suds.client import Client
 from django.http import HttpResponse
+def apis(request):
+    return render(request, 'base/index2.html', {})
 def vistaAdministradora(request):
     return render(request, 'base/index.html', {})
 

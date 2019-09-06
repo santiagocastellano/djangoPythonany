@@ -122,6 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = u'/home/scastellano10/djangoPytnonany/media'
+#MEDIA_ROOT = u'/home/scastellano10/djangoPytnonany/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/scastellano10/djangoPytnonany/static'
+#STATIC_ROOT = u'/home/scastellano10/djangoPytnonany/static'
+
+STATICFILES_DIRS = ( os.path.join('static'), )

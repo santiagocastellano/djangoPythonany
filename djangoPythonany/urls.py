@@ -24,4 +24,5 @@ urlpatterns = [
     path('lugares/', include('djangoPythonany.urlsLugares')),
     path('genericas/', include('djangoPythonany.urlsGenericas')),
     path('administradora', views.vistaAdministradora),
+    path('apis', views.apis),
 ]
