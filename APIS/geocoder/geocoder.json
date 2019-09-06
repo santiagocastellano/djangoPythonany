@@ -1,0 +1,284 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG - Geocoder",
+    "description" : "Ofrece la posibilidad de hacer geocodificaciones a partir de la entrega de varios tipos de parámetros de entrada.",
+
+    "version" : "2.2"
+  },
+  "servers" : [ {
+    "url" : "https://ws.usig.buenosaires.gob.ar/geocoder/2.2/",
+    "description" : "Servicio general"
+  } ],
+  "tags" : [ {
+    "name" : "Desarrollo"
+  } ],
+  "paths" : {
+    "/geocoding" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Geocodificador con diferentes posibilidades de procesamiento. Ejemplo - cod_calle=3001&altura=5790 // \ncod_calle=CABILDO AV.&altura=1234 // cod_calle=CABILDO%20AV.&altura=1234&metodo=centroide // cod_calle1=3030&cod_calle2=20057 // cod_calle1=callao av.&cod_calle2=santa fe av.\n",
+        "operationId" : "geocoding",
+        "parameters" : [ {
+          "name" : "cod_calle",
+          "in" : "query",
+          "description" : "codigo de la calle en formato string o integer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "additionalProperties" : {
+              "type" : "integer"
+            }
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Altura válida correspondiente a cod_calle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "cod_calle1",
+          "in" : "query",
+          "description" : "Codigo de la primer calle string o entero",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "additionalProperties" : {
+              "type" : "integer"
+            }
+          }
+        }, {
+          "name" : "cod_calle2",
+          "in" : "query",
+          "description" : "Codigo de la segunda calle string o entero",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "additionalProperties" : {
+              "type" : "integer"
+            }
+          }
+        }, {
+          "name" : "metodo",
+          "in" : "query",
+          "description" : "Cadena que determina el metodo opcional para la geocodificacion. Interpolacion - Es el método estándar de geocodificación que utiliza sólo la información disponible en el callejero. La ubicación del punto en el segmento se calcula interpolando la altura en proporción a la longitud del tramo y su rango de alturas total. Puertas - Utiliza informacion de puertas oficiales para ubicar el punto con la maxima precision posible para direcciones correspondientes a puertas oficiales y mejorar la geocodificación de direcciones que no corresponden a puertas oficiales mediante la interpolación entre puertas existentes. Centroide - Este método solo tiene sentido para geocodificar puertas oficiales. La geocodificación devuelta consiste en el centroide de la parcela asociada a la puerta oficial indicada.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "interpolacion", "puertas", "centroide" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/xy"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
+    "/reversegeocoding" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Realiza una geocodificación inversa de coordenadas GKBA o WGS84 (formatos grados, minutos, segundos o lat, long flotantes). Ejemplos- x=100000&y=100000 // x=-58.42&y=-34.61 // x=58d24'41.301\"W&y=34d35'40.701\"S\n",
+        "operationId" : "reverseGeocoding",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "Coordenada x",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "Coordenada y",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Reverse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
+    "/smp" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Obtiene el SMP dado un código de calle y una altura. Ejemplos - cod_calle=3001&altura=5790\n",
+        "operationId" : "smp",
+        "parameters" : [ {
+          "name" : "cod_calle",
+          "in" : "query",
+          "description" : "Código de la calle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Altura válida correspondiente al cod_calle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/smp"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "smp" : {
+        "type" : "object",
+        "properties" : {
+          "smp" : {
+            "type" : "string",
+            "example" : "60-040-009"
+          },
+          "centroide" : {
+            "$ref" : "#/components/schemas/smp_centroide"
+          },
+          "pdamatriz" : {
+            "type" : "string",
+            "example" : "10804"
+          }
+        }
+      },
+      "xy" : {
+        "type" : "object",
+        "properties" : {
+          "x" : {
+            "type" : "string",
+            "example" : "101361.266833"
+          },
+          "y" : {
+            "type" : "string",
+            "example" : "106764.705012"
+          }
+        }
+      },
+      "Reverse" : {
+        "type" : "object",
+        "properties" : {
+          "parcela" : {
+            "type" : "string",
+            "example" : "17-086-001B"
+          },
+          "puerta" : {
+            "type" : "string",
+            "example" : "SALGUERO, JERONIMO 88"
+          },
+          "puerta_x" : {
+            "type" : "string",
+            "example" : "103977.780177"
+          },
+          "puerta_y" : {
+            "type" : "string",
+            "example" : "102132.307719"
+          },
+          "calle_alturas" : {
+            "type" : "string",
+            "example" : "SALGUERO, JERONIMO 1-100"
+          },
+          "esquina" : {
+            "type" : "string",
+            "example" : "SALGUERO, JERONIMO y MITRE, BARTOLOME"
+          },
+          "metros_a_esquina" : {
+            "type" : "string",
+            "example" : "31.1"
+          },
+          "altura_par" : {
+            "type" : "string",
+            "example" : "SALGUERO, JERONIMO 82"
+          },
+          "altura_impar" : {
+            "type" : "string",
+            "example" : "SALGUERO, JERONIMO 81"
+          }
+        }
+      },
+      "smp_centroide" : {
+        "type" : "object",
+        "properties" : {
+          "x" : {
+            "type" : "string",
+            "example" : "95569.0705760494"
+          },
+          "y" : {
+            "type" : "string",
+            "example" : "98692.5349999997"
+          }
+        }
+      }
+    }
+  }
+}

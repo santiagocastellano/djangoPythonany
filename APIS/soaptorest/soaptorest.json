@@ -1,0 +1,105 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG - Callejero AMBA",
+    "description" : "Ofrece dos metodos para consultar el listado de partidos AMBA o el callejero de un partido determinado.",
+    "version" : "4"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8000/",
+    "description" : "Servicio general"
+  } ],
+  "paths" : {
+    "/genericas/convertirCoordenadas" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Permite obtener el listado de los partidos del AMBA disponibles.\n",
+        "operationId" : "listadopartidos",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "Coordenada x",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "Coordenada y",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "formatoSalida",
+          "in" : "query",
+          "description" : "Coordenada y",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "gkba", "lonlat", "degrees" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "example" : "{\"resultado\":{\"x\":\"-58.463300\",\"y\":\"-34.629269\"},\"tipo_resultado\":\"Ok\"}"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    },
+    "/callejero" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Permite obtener el callejero de un partido referenciado por el id normalizado.\n",
+        "operationId" : "listadocallejero",
+        "parameters" : [ {
+          "name" : "partido",
+          "in" : "query",
+          "description" : "id del partido normalizado",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "almirante_brown"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string",
+                  "example" : "[[285177,\"12 de Octubre\",\"12 DOCE DE OCTUBRE\",[],[26332,26416,57018,126620,126624,349038],\"Rafael Calzada\"],[138031,\"17 de Febrero\",\"17 DE FEBRERO\",[],[138028,301064,301112,301302,318182,325982,483325],\"Longchamps\"],[49127,\"20 de Septiembre\",\"20 DE SEPTIEMBRE\",[[1200,1800]],[26332,26416,48161,57018,126624,126641,126668,129245,349038,352156],\"Rafael Calzada\"],[49128,\"20 de Septiembre\",\"20 DE SEPTIEMBRE\",[[1,1100],[3100,3200]],[26157,26336,26358,26437,47107,47108,48613,48628,48724,48764,121385,349055],\"Jos\\u00e9 M\\u00e1rmol\"],[352156,\"20 de Setiembre\",\"20 DE SETIEMBRE\",[],[49127,126620,126668],\"Rafael Calzada\"],[47647,\"25 de Mayo\",\"25 DE MAYO\",[[1,1300]],[25664,26842,35578,45691,45693,47554,47669,47685,47690,47695,47710,48024,48030,48041,48049,48062,59724,128697,128785,128821,128842,128947,134790,134800,134834,139315],\"Burzaco\"],[49112,\"25 de Mayo\",\"25 DE MAYO\",[[1,600],[700,1200]],"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    }
+  },
+  "components" : { }
+}

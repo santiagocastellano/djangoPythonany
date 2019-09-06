@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html lang="es" dir="ltr"  prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="lt-ie10 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="es" dir="ltr"  prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="lt-ie10 lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="es" dir="ltr"  prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html lang="es" dir="ltr"  prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="es" dir="ltr" prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="shortcut icon" href="https://www.buenosaires.gob.ar/sites/gcaba/files/favicon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="./assets/general.css">
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+
+    <title>API USIG | Buenos Aires Ciudad - Gobierno de la Ciudad Autónoma de Buenos Aires</title>
+
+    <!-- HTML5 element support for IE6-8 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://www.buenosaires.gob.ar/misc/jquery.once.js?v=1.2"></script>
+    <script src="https://www.buenosaires.gob.ar/sites/gcaba/themes/gcbaV4/xgcaba/bastrap/vendor/bootstrap/bootstrap.min.js?pqw8am"></script>
+
+    <script src="https://www.buenosaires.gob.ar/sites/gcaba/themes/gcbaV4/xgcaba/js/jquery.browser.min.js?pqw8am"></script>
+    <script src="./swagger-ui-bundle.js"> </script>
+    <script src="./swagger-ui-standalone-preset.js"> </script>
+
+
+    <style>
+
+        /*  Fonts
+        /*  Chanewei
+* ======================================================================= */
+
+        @font-face {
+            font-family: "CHANEWEI";
+            src: url("fonts/CHANEWEI.eot");
+            src: url("fonts/CHANEWEI.eot?#iefix") format("embedded-opentype"),
+                url("fonts/CHANEWEI.svg#Gotham") format("svg"),
+                url("fonts/CHANEWEI.woff") format("woff"),
+                url("fonts/CHANEWEI.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /*  Bootstrap Icons
+* ======================================================================= */
+        @font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url("fonts/glyphicons-halflings-regular.eot");
+            src: url("fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+                url("fonts/glyphicons-halflings-regular.woff") format("woff"),
+                url("fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+                url("fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+        }
+
+        /*  BAstrap Icons
+* ======================================================================= */
+        @font-face {
+            font-family: "bastrap-icons";
+            src: url("fonts/bastrap-icons.eot");
+            src: url("fonts/bastrap-icons.eot?#iefix") format("embedded-opentype"),
+                url("fonts/bastrap-icons.woff") format("woff"),
+                url("fonts/bastrap-icons.ttf") format("truetype"),
+                url("fonts/bastrap-icons.svg#bastrap-icons") format("svg");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        /* open-sans-regular - latin */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: url('fonts/opensans-regular.eot');
+            /* IE9 Compat Modes */
+            src: local('Open Sans Regular'), local('OpenSans-Regular'),
+                url('fonts/opensans-regular.eot?#iefix') format('embedded-opentype'),
+                /* Super Modern Browsers */
+                url('fonts/opensans-regular.woff') format('woff'),
+                /* Modern Browsers */
+                url('fonts/opensans-regular.ttf') format('truetype'),
+                /* Safari, Android, iOS */
+                url('fonts/opensans-regular.svg#OpenSans') format('svg');
+            /* Legacy iOS */
+        }
+
+        /* open-sans-800 - latin */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 800;
+            src: url('fonts/opensans-bold.eot');
+            /* IE9 Compat Modes */
+            src: local('Open Sans ExtraBold'), local('OpenSans-ExtraBold'),
+                url('fonts/opensans-bold.eot?#iefix') format('embedded-opentype'),
+                /* IE6-IE8 */
+                url('fonts/opensans-bold.woff2') format('woff2'),
+                /* Super Modern Browsers */
+                url('fonts/opensans-bold.woff') format('woff'),
+                /* Modern Browsers */
+                url('fonts/opensans-bold.ttf') format('truetype'),
+                /* Safari, Android, iOS */
+                url('fonts/opensans-bold.svg#OpenSans') format('svg');
+            /* Legacy iOS */
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        html {
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        pre {
+            padding: 9.5px;
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            border-radius: 4px;
+        }
+
+        .version:before {
+            display: none;
+        }
+
+        .panel-heading:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+
+        .area-title {
+            color: #ffffff
+        }
+
+
+        /* Estilos Nuevos */
+
+        body {
+            margin: 0;
+            background: #ffffff;
+        }
+
+        p {
+            font-family: 'Open Sans' !important;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'CHANEWEI' !important;
+        }
+
+        .navbar-primary {
+            border-bottom: 3px solid #fdd306;
+        }
+
+        .jumbotron {
+            min-height: 400px;
+            text-align: left;
+        }
+
+        .jumbotron-main {
+            padding: 0;
+            text-shadow: inherit;
+        }
+
+        .jumbotron-main .jumbotron-overlay {
+            background: rgba(0, 0, 0, .2);
+        }
+
+        .panel-title {
+            font-size: 22px;
+        }
+
+    </style>
+
+    <!-- Codigo RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/gcba" title="RSS feed Buenos Aires Ciudad">
+    <!-- end Codigo RSS -->
+
+</head>
+
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-92465 node-type-area group-context group-context-group-15235 group-context-node group-context-node-92465">
+
+
+    <noscript class="how-to">
+        <a class="js-alert alert-spot alert-spot-danger text-center" href="http://www.enable-javascript.com/es/" target="_blank">
+            Para utilizar las funcionalidades completas de este sitio es necesario tener
+            JavaScript habilitado. Aquí están las instrucciones para habilitar JavaScript en tu navegador web.
+        </a>
+    </noscript>
+    <a class="lt-ie9-alert alert-spot alert-spot-danger text-center" href="http://browsehappy.com/?locale=es" target="_blank">
+        Tu navegador no está actualizado. Tiene conocidos fallos de seguridad y podría no mostrar todas las características de este y otros sitios web.
+        Aprendé cómo podes actualizarlo.
+    </a>
+
+    <!--   HEADER   -->
+    <header class="navbar navbar-primary navbar-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 text-right mainNavbar noPadding">
+                    <nav id="navbar-principal-id" class="navbar">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-5 col-xs-6 logoBABAC pull-left">
+                                <a href="https://www.buenosaires.gob.ar">
+                                    <img src="https://www.buenosaires.gob.ar/sites/gcaba/themes/gcbaV4/xgcaba/css/BA2016.png">
+                                </a>
+                            </div>
+                            <h2 style="text-align: left; padding-top: 1.5%">
+                                USIG
+                            </h2>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div id="page-messages" class="container">
+            <div>
+                <div class="panel-panel panel-bastrap-12">
+                    <a id="main-content"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="region region-content">
+            <section id="block-system-main" class="block block-system clearfix">
+                <div class="panel-display clearfix">
+
+                    <!--   JUMBOTRON   -->
+                    <div class="panel-panel panel-panel-full-width">
+                        <div class="panel-pane pane-block pane-gcaba-image-header-gcaba-image-header">
+                            <div class="pane-content">
+                                <div class="jumbotron jumbotron-main area-header" style="background-image: url('./assets/fondo1.jpg');">
+                                    <div class="jumbotron-overlay">
+                                        <div class="container">
+                                            <div class="area-title">
+                                                <h1>Unidad de Sistemas de Información Geográfica</h1>
+                                                <p class="lead">Aplicaciones y Servicios Geográficos del Gobierno de la Ciudad de Buenos Aires.
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--   JUMBOTRON   -->
+
+
+              <!-- CONTENIDO -->
+    <main class="main-container" role="main">
+      <section>
+        <div class="container">
+          <div class="row row-shortcut">
+            <a class="col-md-3 col-sm-6 shortcut" href="#aplicaciones">
+              <span class="bg-blue-lt">
+                <span class="glyphicon glyphicon-phone"></span>
+              </span>
+              <h3>Aplicaciones</h3>
+              <p>Mapas Interactivos y Aplicaciones Geográficas.</p>
+            </a>
+            <a class="col-md-3 col-sm-6 shortcut" href="#servicios">
+              <span class="bg-violet-lt">
+                <span class="glyphicon glyphicon-cloud"></span>
+              </span>
+              <h3>Servicios Web</h3>
+              <p>Servicios Geográficos para Integración con sistemas.</p>
+            </a>
+            <a class="col-md-3 col-sm-6 shortcut" href="#desarrollo">
+              <span class="bg-warning-lt">
+                <span class="glyphicon glyphicon-wrench"></span>
+              </span>
+              <h3>Recursos para Desarrolladores</h3>
+              <p>Componentes Geográficos listos para usar.</p>
+            </a>
+            <a class="col-md-3 col-sm-6 shortcut" href="http://www.buenosaires.gob.ar/innovacion/ciudadinteligente/gestiondigital/mapas">
+              <span class="bg-success-lt">
+                <span class="glyphicon glyphicon-home"></span>
+              </span>
+              <h3>Institucional</h3>
+              <p>Información oficial y Contacto.</p>
+            </a>
+          </div>
+          <br>
+        </div>
+      </section>
+      <hr />
+      <section>
+        <div class="container listado">
+          <div class="col-md-12">
+              <a name="aplicaciones"></a>
+            <h2>Aplicaciones</h2>
+            <ul>
+              <li><a href="http://mapa.buenosaires.gob.ar" target="_blank">Mapa Interactivo de Buenos Aires</a>
+                  <p>Mapa Interactivo Oficial de la Ciudad de Buenos Aires. Permite buscar direcciones y lugares de interés en la
+                    Ciudad de Buenos Aires y su área metropolitana, buscar recorridos en transporte público, auto, bici o pie y consultar
+                    mapas temáticos con información geográfica oficial</p>
+              </li>
+              <li><b>BA Cómo Llego</b>
+                  <p style="margin-bottom: 0">Aplicación mobile especialmente diseñada para posibilitar el acceso a la búsqueda de recorridos del Mapa Interactivo de Buenos Aires a través
+                    de dispositivos móviles con acceso a Internet.</p>
+                  <ul style="margin-bottom: 20px;">
+                    <li><a href="http://comollego.ba.gob.ar" target="_blank">BA Cómo Llego (web)</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=ar.gob.buenosaires.comollego&hl=es" target="_blank">BA C&oacute;mo Llego (Android)</a></li>
+                    <li><a href="https://itunes.apple.com/ar/app/ba-como-llego/id576489186?mt=8" target="_blank">BA C&oacute;mo Llego (iOS)</a></li>
+                  </ul>
+              </li>
+              <li><a href="http://servicios.usig.buenosaires.gob.ar/normalizador/" target="_blank">Normalizador de Bases de Direcciones</a>
+                  <p>Una solución amigable y efectiva para la normalización automática de direcciones en conjuntos de datos. Incluye las
+                    herramientas necesarias para corregir interactivamente los registros erróneos y la posibilidad de geocodificar
+                    de forma rápida, sencilla y precisa.</p>
+              </li>
+            </ul>
+            <a name="servicios"></a>
+            <h2>Servicios Web</h2>
+            <ul>
+              <li><a href="http://servicios.usig.buenosaires.gob.ar/normalizar" target="_blank">Normalización de direcciones en AMBA</a>
+                  <p>Permite buscar, normalizar y geocodificar direcciones tanto dentro de CABA como en el área metropolitana.</p>
+              </li>
+              <li><a href="http://ws.usig.buenosaires.gob.ar/datos_utiles" target="_blank">Consulta de datos útiles</a>
+                  <p>Consulta de Barrio, Comuna, Comisaría, Área Hospitalaria, Región Sanitaria, Código Postal, Código de Planeamiento Urbano
+                    y Distrito Escolar para un lugar determinado.</p>
+              </li>
+              <li><a href="http://epok.buenosaires.gob.ar/docs" target="_blank">Búsqueda de lugares de interés</a>
+                  <p>API para la búsqueda de lugares de interés en CABA y su área metropolitana.</p>
+              </li>
+              <li><a href="http://ws.usig.buenosaires.gob.ar/geocoder/2.2" target="_blank">Geocodificación de direcciones en CABA</a>
+                  <p>Permite geocodificar direcciones dentro de CABA utilizando un algoritmo de alta precisión de USIG.</p>
+              </li>
+              <li><a href="http://epok.buenosaires.gob.ar/catastro/" target="_blank">Consulta de datos catastrales de CABA</a>
+                  <p>Provee una serie de métodos que permiten obtener información de las parcelas del catastro de la Ciudad de Buenos Aires..</p>
+              </li>
+            </ul>
+            <a name="desarrollo"></a>
+            <h2>Componentes para Desarrolladores</h2>
+            <ul>
+              <li><a href="http://servicios.usig.buenosaires.gob.ar/usig-js/3.1" target="_blank">USIG-JS</a>
+                  <p>Biblioteca de componentes Javascript reutilizables para aplicaciones web que requieren interactuar con servicios de USIG.<br/>
+                    <a href="http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/doc" target="_blank">Documentación</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/demos" target="_blank">Demos</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/tests" target="_blank">Tests</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/ejemplos" target="_blank">Ejemplos</a>
+                  </p>
+              </li>
+              <li><a href="http://servicios.usig.buenosaires.gob.ar/nd-js/1.4" target="_blank">Normalizador de direcciones JS - CABA</a>
+                  <p>Implementación Javascript de un normalizador de direcciones que utiliza el callejero de USIG para transformar un string
+                    en una direccion normalizada. Requiere jQuery.<br/>
+                    <a href="http://servicios.usig.buenosaires.gob.ar/nd-js/1.4/doc" target="_blank">Documentación</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/nd-js/1.4/demo" target="_blank">Demo</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/nd-js/1.4/tests" target="_blank">Tests</a> -
+                    <a href="http://servicios.usig.buenosaires.gob.ar/nd-js/1.4/qmap" target="_blank">Demo del Buscador</a>
+                    </p>
+              </li>
+              <li><a href="https://pypi.python.org/pypi/usig-normalizador-amba/" target="_blank">Normalizador de direcciones Python - AMBA</a>
+                  <p>Componente Python para normalizar direcciones del AMBA (conurbano y CABA).</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- FIN DE CONTENIDO -->
+
+    <!--   FOOTER   -->
+    <footer>
+        <div class="footer footer-buenosaires">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12 logoVBA">
+                        <a href="http://www.buenosaires.gob.ar" target="_blank">
+                            <img style="height:70px;" src="assets/bavos-footer.png">
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="sub-brand" style="margin-top: 0">
+                            <p>Unidad de Sistemas de Información Geográfica<br>
+                            <span class="text-muted">Dirección General de Ciencias de la Información<br />
+                            Ministerio de Educación e Innovación</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 acercaSitio">
+                        <p>ACERCA DE ESTE SITIO</p>
+                        <ul>
+                            <div class="region region-footer-four">
+                                <h4></h4>
+                                <ul>
+                                    <li class=""><a href="/innovacion/ciudadinteligente/terminos-y-condiciones" title="">Términos y condiciones</a></li>
+                                    <li class=""><a href="/privacidad" title="">Política de privacidad</a></li>
+                                    <li class=""><a href="/innovacion/ciudadinteligente/gestiondigital/webs-y-apps" title="">Sobre esta web</a></li>
+                                    <li class=""><a href="http://buenosaires.gob.ar/mapadesitio" title="">Mapa de sitio</a></li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 telefonosUtiles">
+                        <p>TELÉFONOS DE EMERGENCIA</p>
+                        <ul>
+                            <li>
+                                <a class="hidden-xs hidden-sm">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>103 | Emergencias<div></div>
+                                        <div></div>
+                                    </div>
+                                </a>
+                                <a class="hidden-md hidden-lg" href="tel:103">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>103 | Emergencias</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="hidden-xs hidden-sm">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>107 | SAME</div>
+                                </a>
+                                <a class="hidden-md hidden-lg" href="tel:107">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>107 | SAME</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="hidden-xs hidden-sm">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>108 | Línea Social</div>
+                                </a>
+                                <a class="hidden-md hidden-lg" href="tel:108">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>108 | Línea Social</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="hidden-xs hidden-sm">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>147 | Atención Ciudadana</div>
+                                </a>
+                                <a class="hidden-md hidden-lg" href="tel:147">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>147 | Atención Ciudadana</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="hidden-xs hidden-sm">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>144 | Violencia de Género</div>
+                                </a>
+                                <a class="hidden-md hidden-lg" href="tel:144">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                    <div>144 | Violencia de Género</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 legal">
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 legalText pull-right">
+                                <p>
+                                    Los contenidos de Gobierno de la Ciudad Autónoma de Buenos Aires están licenciados bajo Creative Commons Reconocimiento 2.5 Argentina License
+                                </p>
+                            </div>
+                            <div class="logoOficialCiudad col-md-6 col-sm-6 col-xs-12 pull-left">
+                                <span>
+                                    <a class="navbar-brand bac-footer" href="http://www.buenosaires.gob.ar" target="_blank">Buenos Aires Ciudad</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--   SCRIPTS   -->
+    <script>
+        jQuery(function() {
+            var js = document.createElement("script");
+            js.type = "text/javascript";
+            js.async = 1;
+            js.src = "https://go.botmaker.com/rest/webchat/p/OX7TNDC421/init.js";
+            document.body.appendChild(js);
+
+        });
+
+    </script>
+
+</body>
+
+</html>

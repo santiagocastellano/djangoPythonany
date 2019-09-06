@@ -1,0 +1,257 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG - LocDir",
+    "description" : "Consulta general a través de coordenadas o direcciones.",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://servicios.usig.buenosaires.gov.ar/LocDir",
+    "description" : "Servicio general"
+  } ],
+  "paths" : {
+    "/php/wsLocDir.php" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "devuelve un json con la direccion geocodificada y normalizada\n",
+        "operationId" : "locdir",
+        "parameters" : [ {
+          "name" : "op",
+          "in" : "query",
+          "description" : "operador",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "default" : 1
+          }
+        }, {
+          "name" : "dt",
+          "in" : "query",
+          "description" : "Formato de entrega",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "default" : "json"
+          }
+        }, {
+          "name" : "calle",
+          "in" : "query",
+          "description" : "String con el nombre de calle o interseccion de calles. Ej CABILDO AV.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "description" : "Altura",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "cod",
+          "in" : "query",
+          "description" : "Codigo",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "maxOptions",
+          "in" : "query",
+          "description" : "Cantidad maxima de opciones",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 10
+          }
+        }, {
+          "name" : "geoCode",
+          "in" : "query",
+          "description" : "Geocodificado",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "default" : 1,
+            "enum" : [ 0, 1 ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/datos"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    },
+    "/mapa.phtml" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Devuelve una randerizacion de mapa a partir de un par de coordenadas proyectadas.",
+        "operationId" : "mapa",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "Coordenada x proyectada en GkBA",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "Coordenada y proyectada en GkBA.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "h",
+          "in" : "query",
+          "description" : "altura en pixeles del cuadro devuelto.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "default" : 300
+          }
+        }, {
+          "name" : "w",
+          "in" : "query",
+          "description" : "ancho en pixeles del cuadro devuelto.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "default" : 300
+          }
+        }, {
+          "name" : "punto",
+          "in" : "query",
+          "description" : "Grafico del punto, 1 - si",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 1
+          }
+        }, {
+          "name" : "r",
+          "in" : "query",
+          "description" : "radio alrededor del punto que da la escala.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "default" : 250
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "image/png" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "datos" : {
+        "type" : "object",
+        "properties" : {
+          "comuna" : {
+            "type" : "string",
+            "example" : "Comuna 7"
+          },
+          "barrio" : {
+            "type" : "string",
+            "example" : "Flores"
+          },
+          "comisaria" : {
+            "type" : "string",
+            "example" : "38"
+          },
+          "area_hospitalaria" : {
+            "type" : "string",
+            "example" : "HTAL. DR. P. PIÑERO"
+          },
+          "region_sanitaria" : {
+            "type" : "string",
+            "example" : "II (Sur)"
+          },
+          "distrito_escolar" : {
+            "type" : "string",
+            "example" : "Distrito Escolar   XII"
+          },
+          "comisaria_vecinal" : {
+            "type" : "string",
+            "example" : "7C"
+          },
+          "seccion_catastral" : {
+            "type" : "string",
+            "example" : "65"
+          },
+          "distrito_economico" : {
+            "type" : "string"
+          },
+          "codigo_de_planeamiento_urbano" : {
+            "type" : "string",
+            "example" : "C2"
+          },
+          "partido_amba" : {
+            "type" : "string"
+          },
+          "localidad_amba" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

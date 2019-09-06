@@ -1,0 +1,527 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "EPOk",
+    "description" : "El sistema EPOK implementa una base de objetos geográficos indexados con distintos criterios que pueden consultarse por texto mediante el método público buscar. Cada objeto indexado en EPOK tiene un nombre human-friendly de tipo string que lo representa (como por ejemplo “Ciudad Universitaria - Pabellón 3”) y una clasificación interna basada en categoría (obligatoria) y clase (optativa). Las categorías reprensentan un set de datos temático y se definen con un nombre human-friendly plural de tipo string y un identificador global de tipo string normalizado con minúsculas, sin caracteres especiales y con guines bajos en lugar de espacios (como por ejemplo “Espacios Verdes Públicos” con id normalizado “espacios_verdes_publicos”). A su vez, cada categoría puede subdividirse optativamente en clases que permiten una clasificación más fina y que dependen de cada versión de cada set de datos en particular. Las clases se definen con un nombre human_friendly singular de tipo string y un identificador numérico dentro de la categoría. La mayoría de las categorías no tienen una clasificación en clases, con lo cual sólo definen la clase 1 con un nombre similar al de la categoría en singular.",
+
+    "version" : "1.0.0"
+  },
+  "servers" : [  {
+    "url" : "https://epok.buenosaires.gob.ar/",
+    "description" : "Servicio general"
+  }],
+  "paths" : {
+    "/getCategorias" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "listado de categorias",
+        "description" : "Devuelve listado de categorías públicas que pueden ser consultadas en los métodos buscar, getObjectContent y reverseGeocoderLugares.\n",
+        "operationId" : "getcategorias",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Categorias"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    },
+    "/buscar" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "busqueda",
+        "description" : "El método devuelve una estructura fija que contiene por un lado las instancias (objetos) y por otro lado un agrupamiento en clases.\n",
+        "operationId" : "buscarCategoria",
+        "parameters" : [ {
+          "name" : "texto",
+          "in" : "query",
+          "description" : "cadena de busqueda",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "categoria",
+          "in" : "query",
+          "description" : "lista de categorías normalizadas separadas por coma a filtrar (ej. comisarias_de_policia_metropolitana,comisarias)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "clase",
+          "in" : "query",
+          "description" : "id de clase normalizada a filtrar (ej. comisaria|1)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "bbox",
+          "in" : "query",
+          "description" : "bounding box para limitar la búsqueda geográficamente (ej. 105319.629567,103802.631248,106691.629567,104301.631248)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "description" : "funcion de retorno para jsonp",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "start",
+          "in" : "query",
+          "description" : "desplazamiento dentro la búsqueda",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "cantidad total de resultados a devolver",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "totalFull",
+          "in" : "query",
+          "description" : "calcula la cantidad de total de objetos que coinciden con la búsqueda más allá de los incluidos en la respuesta, lo que combinado con los 2 parámetros anteriores permite paginar",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Busqueda"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reverseGeocoderLugares" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "geocoder reverso",
+        "description" : "El método devuelve una estructura fija que contiene por un lado las instancias (objetos) y por otro lado un agrupamiento en clases.\n",
+        "operationId" : "reverseGeocoderLugares",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "coordenada x (lng)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "format" : "float"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "coordenada y (lat)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number",
+            "format" : "float"
+          }
+        }, {
+          "name" : "categorias",
+          "in" : "query",
+          "description" : "lista de categorias normalizadas separadas por coma",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "srid",
+          "in" : "query",
+          "description" : "sistema de coordenadas (default- 4326)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "radio",
+          "in" : "query",
+          "description" : "radio en metros (default- 1)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "description" : "funcion de retorno para jsonp",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/reverseGeocoderLugares"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getObjectContent" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "Contenido del objeto especificado",
+        "description" : "Devuelve el Objeto especificado mediante el id.\n",
+        "operationId" : "getObjectContent",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "id del objeto",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "description" : "funcion de retorno para jsonp",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/getObjectContent"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "getObjectContent" : {
+        "type" : "object",
+        "properties" : {
+          "fuente" : {
+            "type" : "string",
+            "example" : "Subsecretar\\u00eda de Patrimonio Cultural (SSPCULT) del Ministerio de Cultura"
+          },
+          "claseId" : {
+            "type" : "string",
+            "example" : "dependencias_culturales"
+          },
+          "clase" : {
+            "type" : "string",
+            "example" : "Dependencias Culturales"
+          },
+          "fechaAlta" : {
+            "type" : "string",
+            "example" : "2012-08-24"
+          },
+          "fechaActualizacion" : {
+            "type" : "string",
+            "example" : "Septiembre 2012"
+          },
+          "idForaneo" : {
+            "type" : "string",
+            "example" : "-1"
+          },
+          "fechaUltimaModificacion" : {
+            "type" : "string",
+            "example" : "2012-12-04"
+          },
+          "ubicacion" : {
+            "$ref" : "#/components/schemas/getObjectContent_ubicacion"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "dependencias_culturales|547"
+          },
+          "direccionNormalizada" : {
+            "type" : "string",
+            "example" : "AGUERO 2502"
+          },
+          "contenido" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/getObjectContent_contenido"
+            }
+          }
+        }
+      },
+      "reverseGeocoderLugares" : {
+        "type" : "object",
+        "properties" : {
+          "totalFull" : {
+            "type" : "string",
+            "example" : "1"
+          },
+          "total" : {
+            "type" : "string",
+            "example" : "1"
+          },
+          "instancias" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/reverseGeocoderLugares_instancias"
+            }
+          }
+        }
+      },
+      "Busqueda" : {
+        "type" : "object",
+        "properties" : {
+          "totalFull" : {
+            "type" : "string",
+            "example" : "1"
+          },
+          "clasesEncontradas" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Busqueda_clasesEncontradas"
+            }
+          },
+          "instancias" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Busqueda_instancias"
+            }
+          },
+          "total" : {
+            "type" : "string",
+            "example" : "1"
+          }
+        }
+      },
+      "Categorias" : {
+        "type" : "object",
+        "properties" : {
+          "cantidad_de_categorias" : {
+            "type" : "integer",
+            "example" : 57
+          },
+          "categorias" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Categorias_categorias"
+            }
+          }
+        }
+      },
+      "getObjectContent_ubicacion" : {
+        "type" : "object",
+        "properties" : {
+          "centroide" : {
+            "type" : "string",
+            "example" : "POINT (106014.1548119999933988 104935.4114160000026459)"
+          },
+          "tipo" : {
+            "type" : "string",
+            "example" : "Punto"
+          }
+        }
+      },
+      "getObjectContent_contenido" : {
+        "type" : "object",
+        "properties" : {
+          "nombreId" : {
+            "type" : "string",
+            "example" : "nombre"
+          },
+          "nombre" : {
+            "type" : "string",
+            "example" : "Nombre"
+          },
+          "posicion" : {
+            "type" : "string",
+            "example" : "1"
+          },
+          "valor" : {
+            "type" : "string",
+            "example" : "Biblioteca Nacional"
+          }
+        }
+      },
+      "reverseGeocoderLugares_instancias" : {
+        "type" : "object",
+        "properties" : {
+          "headline" : {
+            "type" : "string",
+            "example" : "San Crist\\u00f3bal"
+          },
+          "nombre" : {
+            "type" : "string",
+            "example" : "San Crist\\u00f3bal"
+          },
+          "claseId" : {
+            "type" : "string",
+            "example" : "barrios|1"
+          },
+          "clase" : {
+            "type" : "string",
+            "example" : "Barrio"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "barrios|12"
+          }
+        }
+      },
+      "Busqueda_clasesEncontradas" : {
+        "type" : "object",
+        "properties" : {
+          "nombreId" : {
+            "type" : "string",
+            "example" : "Dependencias Culturales -> Calesita"
+          },
+          "nombre" : {
+            "type" : "string",
+            "example" : "Calesita"
+          },
+          "total" : {
+            "type" : "string",
+            "example" : "1"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "dependencias_culturales|28"
+          },
+          "nombreNorm" : {
+            "type" : "string",
+            "example" : "calesita"
+          }
+        }
+      },
+      "Busqueda_instancias" : {
+        "type" : "object",
+        "properties" : {
+          "headline" : {
+            "type" : "string",
+            "example" : "Centro <em>Cultural</em> <em>Marc\\u00f3</em> del Pont"
+          },
+          "nombre" : {
+            "type" : "string",
+            "example" : "Centro Cultural Marc\\u00f3 del Pont"
+          },
+          "claseId" : {
+            "type" : "string",
+            "example" : "dependencias_culturales|3"
+          },
+          "clase" : {
+            "type" : "string",
+            "example" : "Centro Cultural"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "dependencias_culturales|72"
+          }
+        }
+      },
+      "Categorias_categorias" : {
+        "type" : "object",
+        "properties" : {
+          "fuente" : {
+            "type" : "string",
+            "example" : "Subsecretar\\u00eda de Turismo"
+          },
+          "fecha_de_relevamiento" : {
+            "type" : "string",
+            "example" : "Enero 2008"
+          },
+          "tipo_de_geometria" : {
+            "type" : "string",
+            "example" : "POINT"
+          },
+          "nombre_normalizado" : {
+            "type" : "string",
+            "example" : "academias_de_espanol"
+          },
+          "descripcion" : {
+            "type" : "string"
+          },
+          "nombre" : {
+            "type" : "string",
+            "example" : "Academias de Espa\\u00f1ol"
+          }
+        }
+      }
+    }
+  }
+}

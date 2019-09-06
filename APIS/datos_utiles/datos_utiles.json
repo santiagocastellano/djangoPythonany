@@ -1,0 +1,134 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG - Datos Utiles",
+    "description" : "Consulta general a travez de coordenadas o direcciones",
+    "version" : "1.0.0"
+  },
+  "servers" : [  {
+    "url" : "https://ws.usig.buenosaires.gob.ar/",
+    "description" : "Servicio general"
+  } ],
+  "paths" : {
+    "/datos_utiles" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Consulta de Barrio, Comuna, Comisaría, Área Hospitalaria, Región Sanitaria y Distrito Escolar para un lugar determinado.\n",
+        "operationId" : "datosutiles",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "Coordenada x del lugar a consultar. Ej 98725",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "Coordenada y del lugar a consultar.Ej 100080",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "calle",
+          "in" : "query",
+          "description" : "String con el nombre de calle o interseccion de calles. Ej CABILDO AV.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Entero con la altura de la calle correspondiente a la direccion o vacío en caso de interseccion. Ej 1500",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/datos"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "datos" : {
+        "type" : "object",
+        "properties" : {
+          "comuna" : {
+            "type" : "string",
+            "example" : "Comuna 7"
+          },
+          "barrio" : {
+            "type" : "string",
+            "example" : "Flores"
+          },
+          "comisaria" : {
+            "type" : "string",
+            "example" : "38"
+          },
+          "area_hospitalaria" : {
+            "type" : "string",
+            "example" : "HTAL. DR. P. PIÑERO"
+          },
+          "region_sanitaria" : {
+            "type" : "string",
+            "example" : "II (Sur)"
+          },
+          "distrito_escolar" : {
+            "type" : "string",
+            "example" : "Distrito Escolar   XII"
+          },
+          "comisaria_vecinal" : {
+            "type" : "string",
+            "example" : "7C"
+          },
+          "seccion_catastral" : {
+            "type" : "string",
+            "example" : "65"
+          },
+          "distrito_economico" : {
+            "type" : "string"
+          },
+          "codigo_de_planeamiento_urbano" : {
+            "type" : "string",
+            "example" : "C2"
+          },
+          "partido_amba" : {
+            "type" : "string"
+          },
+          "localidad_amba" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

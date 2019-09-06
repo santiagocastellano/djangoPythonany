@@ -1,0 +1,434 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG - Servicios REST",
+    "description" : "Api encargada de entregar informacion geocodificada y normalizada de datos definidos como parámetros",
+    "version" : "1.2.0"
+  },
+  "servers" : [ {
+    "url" : "https://ws.usig.buenosaires.gob.ar/rest/",
+    "description" : "Servicio general"
+  } ],
+  "paths" : {
+    "/convertir_coordenadas" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "Este método permite traducir coordenadas entre los sistemas GKBA, WGS84 Lon/Lat y WGS84 grados, minutos, segundos. Los parámetros son (x, y) y el formato de salida, que se indica con gkba, lonlat y degrees respectivamente. El formato de entrada se detecta automaticamente.",
+        "description" : "desc\n",
+        "operationId" : "convertirCoordenadas",
+        "parameters" : [ {
+          "name" : "x",
+          "in" : "query",
+          "description" : "coordenada x Ej 100000",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "y",
+          "in" : "query",
+          "description" : "coordenada y Ej 100000",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "output",
+          "in" : "query",
+          "description" : "Formato al que se quieren convertir las coordenadas. Ej lonlat gkba",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "resultado del criterio de busqueda",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ConvCoords"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "parametro de entrada incorrecto"
+          }
+        }
+      }
+    },
+    "/normalizar_direcciones" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "Permite normalizar direcciones tanto en formato 'calle altura' como en el formato 'calle y calle'",
+        "description" : "desc\n",
+        "operationId" : "normalizarDirecciones",
+        "parameters" : [ {
+          "name" : "calle",
+          "in" : "query",
+          "description" : "Nombre de la calle tanto en el formato 'calle altura' como en el formato 'calle y calle'",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Altura de la calle o vacío en caso de interseccion",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desambiguar",
+          "in" : "query",
+          "description" : "Desambiguar automáticamente (1) o no (0) cuando el nombre de la calle sea una permutación del nombre oficial de la calle",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 1,
+            "enum" : [ 0, 1 ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/NormDirs"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "parametro de entrada incorrecto"
+          }
+        }
+      }
+    },
+    "/normalizar_y_geocodificar_direcciones" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "Este método permite normalizar direcciones tanto en el formato 'calle altura' como en el formato 'calle y calle' y geocodificarlas en un solo paso (en caso de que la normalización sea exitosa)",
+        "description" : "desc\n",
+        "operationId" : "normalizarYGeocodificarDirecciones",
+        "parameters" : [ {
+          "name" : "calle",
+          "in" : "query",
+          "description" : "Nombre de la calle o intersección (i.e. Callao y Corrientes)",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Altura de la calle o vacío en caso de interseccion",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desambiguar",
+          "in" : "query",
+          "description" : "Desambiguar automáticamente (1) o no (0) cuando el nombre de la calle sea una permutación del nombre oficial de la calle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 1,
+            "enum" : [ 0, 1 ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/NGeoDirecciones"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "parametro de entrada incorrecto"
+          }
+        }
+      }
+    },
+    "/obtener_calles_adyacentes" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "summary" : "Este método permite averiguar entre que calles se encuentra una dirección dada. Se asume que los parámetros ya fueron validados por el normalizador",
+        "operationId" : "obtenerCallesAdyascentes",
+        "parameters" : [ {
+          "name" : "cod_calle",
+          "in" : "query",
+          "description" : "Codigo de la calle",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "altura",
+          "in" : "query",
+          "description" : "Altura de la calle",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CallesAdyas"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "parametro de entrada incorrecto"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "CallesAdyas" : {
+        "type" : "object",
+        "properties" : {
+          "calles" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CallesAdyas_calles"
+            }
+          }
+        }
+      },
+      "NGeoDirecciones" : {
+        "type" : "object",
+        "properties" : {
+          "Normalizacion" : {
+            "$ref" : "#/components/schemas/NGeoDirecciones_Norma"
+          },
+          "GeoCodificacion" : {
+            "$ref" : "#/components/schemas/NGeoDirecciones_GeoCod"
+          }
+        }
+      },
+      "ConvCoords" : {
+        "type" : "object",
+        "properties" : {
+          "tipo_resultado" : {
+            "type" : "string",
+            "example" : "Ok"
+          },
+          "resultado" : {
+            "$ref" : "#/components/schemas/ConvCoords_resultado"
+          }
+        }
+      },
+      "NormDirs" : {
+        "type" : "object",
+        "properties" : {
+          "TipoResultado" : {
+            "type" : "string",
+            "example" : "DireccionNormalizada"
+          },
+          "DireccionesCalleAltura" : {
+            "$ref" : "#/components/schemas/NGeoDirs_Norm_DirCalleAltura"
+          },
+          "DireccionesCalleCalle" : {
+            "$ref" : "#/components/schemas/NormDirs_DirCalleCalle"
+          }
+        }
+      },
+      "CallesAdyas_calles" : {
+        "type" : "object",
+        "properties" : {
+          "Codigo" : {
+            "type" : "string",
+            "example" : "19017"
+          },
+          "Nombre" : {
+            "type" : "string",
+            "example" : "RECONQUISTA"
+          }
+        }
+      },
+      "NGeoDirs_Norm_DirCalleAlt_dirs" : {
+        "type" : "object",
+        "properties" : {
+          "CodigoCalle" : {
+            "type" : "string",
+            "example" : "20074"
+          },
+          "Calle" : {
+            "type" : "string",
+            "example" : "SARMIENTO"
+          },
+          "Altura" : {
+            "type" : "integer",
+            "example" : 500
+          }
+        }
+      },
+      "NGeoDirs_Norm_DirCalleAltura" : {
+        "type" : "object",
+        "properties" : {
+          "direcciones" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NGeoDirs_Norm_DirCalleAlt_dirs"
+            }
+          }
+        }
+      },
+      "NGeoDirs_Norm_DirCalleCalle_dirs" : {
+        "type" : "object",
+        "properties" : {
+          "CodigoCalle1" : {
+            "type" : "string",
+            "example" : "20074"
+          },
+          "Calle1" : {
+            "type" : "string",
+            "example" : "SARMIENTO"
+          },
+          "CodigoCalle2" : {
+            "type" : "string",
+            "example" : "3030"
+          },
+          "Calle2" : {
+            "type" : "string",
+            "example" : "CALLAO AV."
+          }
+        }
+      },
+      "NGeoDirs_Norma_DirCalleCalle" : {
+        "type" : "object",
+        "properties" : {
+          "direcciones" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NGeoDirs_Norm_DirCalleCalle_dirs"
+            }
+          }
+        }
+      },
+      "NGeoDirecciones_Norma" : {
+        "type" : "object",
+        "properties" : {
+          "TipoResultado" : {
+            "type" : "string",
+            "example" : "DireccionNormalizada"
+          },
+          "DireccionesCalleAltura" : {
+            "$ref" : "#/components/schemas/NGeoDirs_Norm_DirCalleAltura"
+          },
+          "DireccionesCalleCalle" : {
+            "$ref" : "#/components/schemas/NGeoDirs_Norma_DirCalleCalle"
+          }
+        }
+      },
+      "NGeoDirecciones_GeoCod" : {
+        "type" : "object",
+        "properties" : {
+          "x" : {
+            "type" : "string",
+            "example" : "108227.805241839"
+          },
+          "y" : {
+            "type" : "string",
+            "example" : "102742.071302827"
+          }
+        }
+      },
+      "ConvCoords_resultado" : {
+        "type" : "object",
+        "properties" : {
+          "x" : {
+            "type" : "string",
+            "example" : "-58.4633"
+          },
+          "y" : {
+            "type" : "string",
+            "example" : "-34.629269"
+          }
+        }
+      },
+      "NormDirs_DirCalleCalle" : {
+        "type" : "object",
+        "properties" : {
+          "direcciones" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "CodigoCalle1" : {
+                    "type" : "string",
+                    "example" : "20074"
+                  },
+                  "Calle1" : {
+                    "type" : "string",
+                    "example" : "SARMIENTO"
+                  },
+                  "CodigoCalle2" : {
+                    "type" : "string",
+                    "example" : "3030"
+                  },
+                  "Calle2" : {
+                    "type" : "string",
+                    "example" : "CALLAO AV."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

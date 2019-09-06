@@ -1,0 +1,313 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "USIG -  Recorridos",
+    "description" : "Calculo de recorrido entre dos puntos dados.",
+
+
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://recorridos.usig.buenosaires.gob.ar/2.0/consultar_gba",
+    "description" : "Servicio general"
+  } ],
+  "paths" : {
+    "/" : {
+      "get" : {
+        "tags" : [ "Desarrollo" ],
+        "description" : "Calculador de recorridos entre dos puntos dados.\n",
+        "operationId" : "geocoding",
+        "parameters" : [ {
+          "name" : "tipo",
+          "in" : "query",
+          "description" : "Codigo de la calle en formato string o integer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "default" : "pie",
+            "enum" : [ "auto", "pie", "bici", "transporte" ]
+          }
+        }, {
+          "name" : "gml",
+          "in" : "query",
+          "description" : "Define si se retorna  un gml",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "precargar",
+          "in" : "query",
+          "description" : "Cantidad de registros del resultado con datos precargados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 3
+          }
+        }, {
+          "name" : "opciones_caminata",
+          "in" : "query",
+          "description" : "distancia en metros dispuesta para caminata.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 800
+          }
+        }, {
+          "name" : "opciones_medios_colectivo",
+          "in" : "query",
+          "description" : "Inclusión de lineas de colectivo en el calculo.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "opciones_medios_subte",
+          "in" : "query",
+          "description" : "Inclusión de lineas de subte en el calculo.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "opciones_medios_tren",
+          "in" : "query",
+          "description" : "Inclusión de lineas de subte en el calculo.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "opciones_prioridad",
+          "in" : "query",
+          "description" : "Asignacionde prioridad a ciertas vias.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "default" : "avenidas"
+          }
+        }, {
+          "name" : "opciones_incluir_autopistas",
+          "in" : "query",
+          "description" : "Inclusión de autopistas en el calculo.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "opciones_cortes",
+          "in" : "query",
+          "description" : "Recalculo segun cortes.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "max_results",
+          "in" : "query",
+          "description" : "Cantidad maxima de resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 15
+          }
+        }, {
+          "name" : "trackVisits",
+          "in" : "query",
+          "description" : "Seguimiento de visitas.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "opciones_max_results",
+          "in" : "query",
+          "description" : "Cantidad maxima de resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 15
+          }
+        }, {
+          "name" : "origen",
+          "in" : "query",
+          "description" : "Coordenadas xy de origen. GKBA.Ej. '104493.88241739778%2C102351.13729552574'",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "origen_calles2",
+          "in" : "query",
+          "description" : "Id de la segunda calle integrante de una interseccion",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "origen_calles",
+          "in" : "query",
+          "description" : "Id de la primera calle integrante de una interseccion",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "origen_calle_altura",
+          "in" : "query",
+          "description" : "Altura de la calle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "destino",
+          "in" : "query",
+          "description" : "Coordenada del destino. GKBA. Ej. '95991.00152015703%2C103041.04021650959'",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "destino_calles2",
+          "in" : "query",
+          "description" : "Id de la segunda calle del cruce del destino.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "destino_calles",
+          "in" : "query",
+          "description" : "Id de la  primera calle del cruce del destino.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "destino_calle_altura",
+          "in" : "query",
+          "description" : "Altura de la calle destino.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/planning"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "planning" : {
+        "type" : "object",
+        "properties" : {
+          "tiempo" : {
+            "type" : "number",
+            "example" : 26
+          },
+          "destino" : {
+            "type" : "string",
+            "example" : "108354.739716,102307.237833"
+          },
+          "origen" : {
+            "type" : "string",
+            "example" : "102755.149006,101254.229379"
+          },
+          "traveled_distance" : {
+            "type" : "number",
+            "example" : 5985
+          },
+          "services" : {
+            "type" : "string",
+            "example" : "86"
+          },
+          "walk" : {
+            "type" : "number",
+            "example" : 431
+          },
+          "type" : {
+            "type" : "string",
+            "example" : "transporte_publico"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "2019-03-19T113707558014"
+          }
+        }
+      }
+    }
+  }
+}
